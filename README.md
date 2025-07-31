@@ -14,27 +14,32 @@ A Django web application that generates images from text prompts using the Stabi
 ## Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd text2image
    ```
 
 2. **Install dependencies**
+
    ```bash
    pip install -r requirements.txt
    ```
 
 3. **Set up environment variables**
+
    ```bash
    export STABILITY_API_KEY="your-stability-api-key-here"
    ```
 
 4. **Run migrations**
+
    ```bash
    python3 manage.py migrate
    ```
 
 5. **Start the development server**
+
    ```bash
    python3 manage.py runserver
    ```
@@ -47,21 +52,25 @@ A Django web application that generates images from text prompts using the Stabi
 ### Running Tests
 
 **Basic test run:**
+
 ```bash
 python3 manage.py test
 ```
 
 **Verbose test run:**
+
 ```bash
 python3 manage.py test -v 2
 ```
 
 **Using the test script:**
+
 ```bash
 ./run_tests.sh
 ```
 
 **With coverage:**
+
 ```bash
 coverage run --source='.' manage.py test
 coverage report
@@ -101,6 +110,7 @@ The application includes comprehensive tests covering:
 The application implements comprehensive error handling:
 
 ### API Errors
+
 - **401 Unauthorized**: Invalid API key
 - **403 Forbidden**: API access denied
 - **429 Too Many Requests**: Rate limit exceeded
@@ -109,12 +119,14 @@ The application implements comprehensive error handling:
 - **Connection Errors**: Network connectivity issues
 
 ### User Input Validation
+
 - **Empty prompts**: Rejected with clear error message
 - **Too short prompts**: Minimum 3 characters required
 - **Too long prompts**: Maximum 1000 characters
 - **Harmful content**: Filtered for inappropriate content
 
 ### User Feedback
+
 - **Success messages**: Confirmation of successful operations
 - **Error messages**: Clear explanation of what went wrong
 - **Validation errors**: Specific feedback on form issues
@@ -141,8 +153,9 @@ The application uses the Stability AI API for image generation:
 ## Development
 
 ### Project Structure
+
 ```
-text2image/
+Image-Generator/
 ├── generator/           # Main Django app
 │   ├── models.py       # Database models
 │   ├── views.py        # View logic with error handling
@@ -163,14 +176,15 @@ text2image/
 4. **Error Tests**: Test error handling scenarios
 
 Example test structure:
+
 ```python
 class MyFeatureTest(TestCase):
     def setUp(self):
         # Setup test data
-        
+
     def test_feature_works(self):
         # Test normal operation
-        
+
     def test_feature_handles_error(self):
         # Test error handling
 ```
