@@ -1,0 +1,42 @@
+# Fichiers Python compilés
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environnement virtuel
+venv/
+env/
+
+# Django files
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+staticfiles/
+
+# VS Code / PyCharm
+.vscode/
+.idea/
+
+# Mac / Linux / Windows
+.DS_Store
+Thumbs.db
+
+# Fichiers collectés par collectstatic
+/static/
+
+# fichiers coverage/tests
+.coverage
+htmlcov/
+*.cover
+
+# fichiers pip
+pip-wheel-metadata/
+*.egg-info/
+*.egg
+dist/
+build/
+
+# New year test app 
+newyear/

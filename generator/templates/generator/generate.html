@@ -1,0 +1,80 @@
+{% extends 'generator/base.html' %}
+
+{% block title %}Generate Image | Text to Image Generator{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <div class="generate-container">
+        <div class="generate-header">
+            <h1>Create Your Image</h1>
+            <p class="subtitle">Describe what you want to see, and AI will bring it to life</p>
+        </div>
+        
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message message-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        {% if error %}
+            <div class="error-message">
+                <span class="error-icon">⚠️</span>
+                <span class="error-text">{{ error }}</span>
+            </div>
+        {% endif %}
+        
+        <form method="post" class="generate-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="prompt">Describe your image:</label>
+                <textarea 
+                    id="prompt" 
+                    name="prompt" 
+                    placeholder="A majestic dragon flying over a medieval castle at sunset, digital art style" 
+                    required
+                    rows="3"
+                    {% if prompt %}value="{{ prompt }}"{% endif %}
+                >{% if prompt %}{{ prompt }}{% endif %}</textarea>
+                <div class="prompt-examples">
+                    <span class="example-label">Try these examples:</span>
+                    <div class="example-chips">
+                        <button type="button" class="example-chip" onclick="setPrompt('A cute robot drinking coffee in a cyberpunk cafe')">Robot in cafe</button>
+                        <button type="button" class="example-chip" onclick="setPrompt('A magical forest with glowing mushrooms and fairy lights')">Magical forest</button>
+                        <button type="button" class="example-chip" onclick="setPrompt('A futuristic city skyline at night with flying cars')">Futuristic city</button>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="generate-btn">
+                <span class="btn-text">Generate Image</span>
+                <span class="btn-icon">✨</span>
+            </button>
+        </form>
+        
+        <div class="recent-generations">
+            <h3>Your Recent Creations</h3>
+            <a href="{% url 'user_gallery' %}" class="view-all-link">View All →</a>
+        </div>
+    </div>
+{% else %}
+    <div class="auth-message">
+        <div class="auth-icon">🎨</div>
+        <h2>Start Creating Amazing Images</h2>
+        <p>Join our community and turn your imagination into reality with AI-powered image generation.</p>
+        <div class="auth-buttons">
+            <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+            <a href="{% url 'register' %}" class="btn btn-secondary">Create Account</a>
+        </div>
+    </div>
+{% endif %}
+
+<script>
+function setPrompt(text) {
+    document.getElementById('prompt').value = text;
+    document.getElementById('prompt').focus();
+}
+</script>
+{% endblock %} 

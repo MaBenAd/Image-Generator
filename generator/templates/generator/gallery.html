@@ -1,0 +1,91 @@
+{% extends 'generator/base.html' %}
+{% load static %}
+
+{% block title %}My Gallery | Text to Image Generator{% endblock %}
+
+{% block content %}
+<div class="gallery-container">
+    <div class="gallery-header">
+        <div class="gallery-title">
+            <h1>My Gallery</h1>
+            <p class="gallery-subtitle">All your AI-generated creations in one place</p>
+        </div>
+        <div class="gallery-actions">
+            <a href="{% url 'generate' %}" class="btn btn-primary">
+                <span>🎨</span>
+                Create New
+            </a>
+        </div>
+    </div>
+    
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message message-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    {% if generations %}
+        <div class="gallery-stats">
+            <div class="stat-item">
+                <span class="stat-number">{{ generations.count }}</span>
+                <span class="stat-label">Images</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">{{ generations.first.created_at|date:"M d" }}</span>
+                <span class="stat-label">First Created</span>
+            </div>
+        </div>
+        
+        <div class="gallery-grid">
+            {% for generation in generations %}
+                <div class="gallery-item" data-url="{% url 'generation_result' generation.pk %}">
+                    <div class="item-image">
+                        <img src="{{ generation.image.url }}" alt="{{ generation.prompt }}" />
+                        <div class="item-overlay">
+                            <div class="overlay-content">
+                                <span class="view-details">Click to view</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-info">
+                        <p class="item-prompt">{{ generation.prompt|truncatechars:50 }}</p>
+                        <div class="item-meta">
+                            <span class="item-date">{{ generation.created_at|date:"M d, Y" }}</span>
+                            <span class="item-time">{{ generation.created_at|date:"H:i" }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-gallery">
+            <div class="empty-icon">🎨</div>
+            <h2>Your Gallery is Empty</h2>
+            <p>Start creating amazing images and they'll appear here!</p>
+            <a href="{% url 'generate' %}" class="btn btn-primary">
+                <span>✨</span>
+                Create Your First Image
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle gallery item clicks
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    galleryItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const url = this.getAttribute('data-url');
+            if (url) {
+                window.location.href = url;
+            }
+        });
+    });
+});
+</script>
+{% endblock %} 

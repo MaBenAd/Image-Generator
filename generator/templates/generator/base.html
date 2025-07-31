@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Text to Image Generator{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'generator/catppuccin.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="{% url 'generate' %}" class="title-link">
+                <span class="title">Text to Image Generator</span>
+            </a>
+            <nav class="nav-links">
+                {% if user.is_authenticated %}
+                    <span class="user-info">Welcome, {{ user.username }}!</span>
+                    <a href="{% url 'generate' %}" class="nav-link">Generate</a>
+                    <a href="{% url 'user_gallery' %}" class="nav-link">My Gallery</a>
+                    <a href="{% url 'logout' %}" class="nav-link logout">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-link">Login</a>
+                    <a href="{% url 'register' %}" class="nav-link register">Register</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <span>| Made with <span style="color: var(--ctp-pink);">♥</span> by Marius |</span>
+    </footer>
+</body>
+</html> 
