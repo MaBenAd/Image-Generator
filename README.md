@@ -195,23 +195,3 @@ SECRET_KEY=your-django-secret-key
 DEBUG=False
 ALLOWED_HOSTS=your-domain.com
 ```
-
-## Contributing
-
-1. Write tests for new features
-2. Ensure all tests pass
-3. Follow Django best practices
-4. Add proper error handling
-5. Update documentation
-
-## License
-
-This project is licensed under the MIT License.
-
-## Support
-
-For issues and questions:
-1. Check the test suite for examples
-2. Review error handling patterns
-3. Consult Django documentation
-4. Open an issue with detailed information 
