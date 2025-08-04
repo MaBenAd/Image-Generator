@@ -7,7 +7,6 @@ A Django web application that generates images from text prompts using the Stabi
 - **AI Image Generation**: Create images from text descriptions using Stable Diffusion XL
 - **User Authentication**: Secure user registration and login system
 - **Personal Gallery**: View and manage your generated images
-- **Modern UI**: Beautiful, responsive interface with Catppuccin theme
 - **Error Handling**: Comprehensive error handling and user feedback
 - **Security**: CSRF protection, input validation, and SQL injection prevention
 
@@ -18,8 +17,8 @@ A Django web application that generates images from text prompts using the Stabi
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
-   cd text2image
+   git clone https://github.com/MaBenAd/Image-Generator.git
+   cd Image-Generator
    ```
 
 2. **Déploiement rapide avec Docker**
@@ -41,8 +40,8 @@ A Django web application that generates images from text prompts using the Stabi
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
-   cd text2image
+   git clone https://github.com/MaBenAd/Image-Generator.git
+   cd Image-Generator
    ```
 
 2. **Install dependencies**
@@ -180,7 +179,7 @@ The application uses the Stability AI API for image generation:
 ### Project Structure
 
 ```
-text2image/
+Image-Generator/
 ├── generator/              # Main Django app
 │   ├── models.py          # Database models
 │   ├── views.py           # View logic with error handling
