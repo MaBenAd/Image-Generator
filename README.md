@@ -34,6 +34,7 @@ A Django web application that generates images from text prompts using the Stabi
 3. **Accès à l'application**
    - Application : http://localhost
    - Interface admin : http://localhost/admin
+   - **Note** : L'application nécessite une clé API Stability AI pour générer des images
 
 ### Option 2: Installation manuelle
 
@@ -186,7 +187,6 @@ Image-Generator/
 │   ├── tests.py           # Comprehensive test suite
 │   └── templates/         # HTML templates
 ├── text2image/            # Django project settings
-│   └── settings_production.py  # Production settings
 ├── media/                 # Generated images storage
 ├── staticfiles/           # Static files (générés)
 ├── requirements.txt       # Python dependencies
@@ -265,7 +265,7 @@ docker compose up -d
 #### Variables d'environnement :
 ```bash
 DEBUG=False
-DJANGO_SETTINGS_MODULE=text2image.settings_production
+DJANGO_SETTINGS_MODULE=text2image.settings
 SECRET_KEY=your-secret-key
 STABILITY_API_KEY=your-stability-api-key
 REQUIRE_STABILITY_API=false  # true en production
