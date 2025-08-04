@@ -17,7 +17,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 STABILITY_API_KEY = os.environ.get("STABILITY_API_KEY")
-if not STABILITY_API_KEY:
+# Only raise error in production or if explicitly required
+if not STABILITY_API_KEY and os.environ.get("REQUIRE_STABILITY_API", "false").lower() == "true":
     raise RuntimeError("STABILITY_API_KEY environment variable not set.")
 
 
@@ -53,6 +54,10 @@ def generate_image_from_prompt(prompt):
     try:
         # Validate prompt
         validated_prompt = validate_prompt(prompt)
+        
+        # Check if API key is available
+        if not STABILITY_API_KEY:
+            raise ImageGenerationError("Stability AI API key not configured. Please set STABILITY_API_KEY environment variable.")
         
         url = "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image"
         headers = {

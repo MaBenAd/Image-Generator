@@ -13,6 +13,31 @@ A Django web application that generates images from text prompts using the Stabi
 
 ## Installation
 
+### Option 1: Déploiement avec Docker (Recommandé)
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd text2image
+   ```
+
+2. **Déploiement rapide avec Docker**
+
+   ```bash
+   # Rendre le script de déploiement exécutable
+   chmod +x deploy.sh
+   
+   # Lancer le déploiement automatique
+   ./deploy.sh
+   ```
+
+3. **Accès à l'application**
+   - Application : http://localhost
+   - Interface admin : http://localhost/admin
+
+### Option 2: Installation manuelle
+
 1. **Clone the repository**
 
    ```bash
@@ -155,17 +180,24 @@ The application uses the Stability AI API for image generation:
 ### Project Structure
 
 ```
-Image-Generator/
-├── generator/           # Main Django app
-│   ├── models.py       # Database models
-│   ├── views.py        # View logic with error handling
-│   ├── tests.py        # Comprehensive test suite
-│   └── templates/      # HTML templates
-├── text2image/         # Django project settings
-├── media/              # Generated images storage
-├── requirements.txt    # Python dependencies
-├── pytest.ini         # Test configuration
-└── run_tests.sh       # Test runner script
+text2image/
+├── generator/              # Main Django app
+│   ├── models.py          # Database models
+│   ├── views.py           # View logic with error handling
+│   ├── tests.py           # Comprehensive test suite
+│   └── templates/         # HTML templates
+├── text2image/            # Django project settings
+│   └── settings_production.py  # Production settings
+├── media/                 # Generated images storage
+├── staticfiles/           # Static files (générés)
+├── requirements.txt       # Python dependencies
+├── pytest.ini            # Test configuration
+├── run_tests.sh          # Test runner script
+├── Dockerfile            # Configuration Docker
+├── docker-compose.yml    # Orchestration Docker
+├── nginx.conf            # Configuration Nginx
+├── .dockerignore         # Fichiers exclus Docker
+└── deploy.sh             # Script de déploiement
 ```
 
 ### Adding New Tests
@@ -188,6 +220,77 @@ class MyFeatureTest(TestCase):
     def test_feature_handles_error(self):
         # Test error handling
 ```
+
+## Docker Deployment
+
+### Architecture Docker
+
+L'application utilise une architecture multi-conteneurs :
+
+```
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Nginx     │    │   Django    │    │ PostgreSQL  │
+│   (Port 80) │◄──►│  (Port 8000)│◄──►│  (Port 5432)│
+└─────────────┘    └─────────────┘    └─────────────┘
+```
+
+### Commandes Docker utiles
+
+```bash
+# Voir le statut des services
+docker compose ps
+
+# Voir les logs
+docker compose logs -f
+
+# Redémarrer un service
+docker compose restart web
+
+# Arrêter tous les services
+docker compose down
+
+# Mettre à jour l'application
+git pull
+docker compose build --no-cache
+docker compose up -d
+```
+
+### Configuration Docker
+
+#### Fichiers de configuration :
+- `Dockerfile` : Configuration de l'image Docker
+- `docker-compose.yml` : Orchestration des services
+- `nginx.conf` : Configuration du serveur web
+- `.dockerignore` : Fichiers exclus du build
+
+#### Variables d'environnement :
+```bash
+DEBUG=False
+DJANGO_SETTINGS_MODULE=text2image.settings_production
+SECRET_KEY=your-secret-key
+STABILITY_API_KEY=your-stability-api-key
+REQUIRE_STABILITY_API=false  # true en production
+```
+
+### Dépannage Docker
+
+#### Problèmes courants :
+
+1. **Erreur 502 Bad Gateway**
+   ```bash
+   docker compose logs web
+   docker compose logs nginx
+   ```
+
+2. **Base de données non accessible**
+   ```bash
+   docker compose exec db psql -U postgres -d text2image
+   ```
+
+3. **Fichiers statiques non servis**
+   ```bash
+   docker compose exec web python manage.py collectstatic --noinput
+   ```
 
 ## Deployment
 
